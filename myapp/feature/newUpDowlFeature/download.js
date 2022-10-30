@@ -47,21 +47,32 @@ router.get('/public/:folderName/:fileName',(req, res, next) => {
     }
     else
     {
-    //check does file exist
-        const DOWNlOAD_FILE_PATH = path.join(STATIC_PATH, req.params.folderName + '/' + req.params.fileName);
-
-        var fileIsExist = fs.existsSync(DOWNlOAD_FILE_PATH);
-
-        if(!fileIsExist) {
-            return res.send("file doesn't exist");
-        }
-        else
+        //check if folder exists in json file but not exist in server
+        var folderIsExistReal = fs.existsSync(path.join(STATIC_PATH, req.params.folderName))
+        if(!folderIsExistReal)
         {
-            //add data to log file
-            addLog(STATIC_PATH +'/'+ req.params.folderName,"dowloadFile", req.params.fileName)
+            console.log(req.params.folderName + " in JSON file does not exist in server")
+            console.log("---------------------------------------------")
+            return res.send("folders doesn't exist");
+        }
+        else {
+        
+            //check does file exist
+            const DOWNlOAD_FILE_PATH = path.join(STATIC_PATH, req.params.folderName + '/' + req.params.fileName);
 
-            //move to next middleware
-            next();
+            var fileIsExist = fs.existsSync(DOWNlOAD_FILE_PATH);
+
+            if(!fileIsExist) {
+                return res.send("file doesn't exist");
+            }
+            else
+            {
+                //add data to log file
+                addLog(STATIC_PATH +'/'+ req.params.folderName,"dowloadFile", req.params.fileName)
+
+                //move to next middleware
+                next();
+            }
         }
     }
 })

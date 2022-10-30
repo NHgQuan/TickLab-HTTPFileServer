@@ -72,7 +72,16 @@ router.post('/upload/:folderName', (req, res, next) =>{
   }
   else
   {
-      next();
+      //check if folder exists in json file but not exist in server
+      var folderIsExistReal = fs.existsSync(path.join(UPLOAD_FOLDER_PATH, req.params.folderName))
+      if(!folderIsExistReal)
+      {
+        console.log(req.params.folderName + " in JSON file does not exist in server")
+        console.log("---------------------------------------------")
+        return res.send("folders doesn't exist");
+      }
+      else
+        next();
   }
 })
 
@@ -137,10 +146,9 @@ router.post('/upload-multiple/:folderName', (req, res, next) => {
     return res.status(400).send('Empty token !');
   }
 
-  var originData = req.headers['user-agent'];
+  var originData = req.params.folderName;
 
   if (!tokenString) return res.status(401).send('Access Denied !');
-
   try 
   {
       
@@ -148,35 +156,43 @@ router.post('/upload-multiple/:folderName', (req, res, next) => {
       if(nData==originData) 
       {
         console.log('upload: access-accept')
-        next();
-      }   
-  } 
+        next('route');
+      }
+      else 
+      {
+          next();
+      }
+    }
   catch (error) 
   {
       res.status(400).send('Invalid token !');
       console.log('upload: access-denied');
       console.log("---------------------------------------------")
   }
-})
+},(err,res) => {
+    console.log('upload: access-denided')
+    console.log("---------------------------------------------")
+    return res.status(400).send("invalid token")   
+} )
 
 //check folder exists
 router.post('/upload-multiple/:folderName', (req, res, next) =>{
-    var folderIsExist = false;
-    //read and parse json file
-    var data = fs.readFileSync("./data/folders.json")
-    var folders = JSON.parse(data);
-    //check does folder exist
-    for(var x in folders) {
-        if(folders[x].name == req.params.folderName) folderIsExist = true;
-    }
+  var folderIsExist = false;
+  //read and parse json file
+  var data = fs.readFileSync("./data/folders.json")
+  var folders = JSON.parse(data);
+  //check does folder exist
+  for(var x in folders) {
+      if(folders[x].name == req.params.folderName) folderIsExist = true;
+  }
 
-    if(!folderIsExist) { 
-        return res.send("folders doesn't exist");
-    }
-    else
-    {
-        next();
-    }
+  if(!folderIsExist) { 
+      return res.send("folders doesn't exist");
+  }
+  else
+  {
+      next();
+  }
 })
 
 //upload multiple files
@@ -202,6 +218,9 @@ router.post('/upload-multiple/:folderName', fileUpload(), async (req, res) => {
       //Use the mv() method to place the file in the upload directory (i.e. "uploads")
       await bvatar.mv(UPLOAD_FOLDER_PATH + '/' +newfilePath1);
 
+      //add data to log file
+      addLog(UPLOAD_FOLDER_PATH +'/'+ req.params.folderName,"uploadFile", newFileName1)
+
       var fileName2= avatar.name.split(".");
       
       var newFileName2 = fileName2[0]+'_'+Date.now() + '.' + fileName2[1];
@@ -209,6 +228,8 @@ router.post('/upload-multiple/:folderName', fileUpload(), async (req, res) => {
       var newfilePath2 = req.params.folderName + '/' +newFileName2;
       //Use the mv() method to place the file in the upload directory (i.e. "uploads")
       await avatar.mv(UPLOAD_FOLDER_PATH + '/' +newfilePath2);
+
+      addLog(UPLOAD_FOLDER_PATH +'/'+ req.params.folderName,"uploadFile", newFileName2)
 
       console.log('some files have been uploaded to upload directory');
       console.log("---------------------------------------------")

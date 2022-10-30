@@ -33,6 +33,7 @@ router.delete('/delete/:folderName/:fileName', (req, res, next) => {
         if(nData==originData) 
         {
           console.log('delete: access-accept')
+          console.log("---------------------------------------------")
           next('route');
         } 
         else
@@ -68,17 +69,27 @@ router.delete('/delete/:folderName/:fileName',(req, res, next) => {
     }
     else
     {
-    //check does file exist
-        const DOWNlOAD_FILE_PATH = path.join(STATIC_PATH, req.params.folderName + '/' + req.params.fileName);
-
-        var fileIsExist = fs.existsSync(DOWNlOAD_FILE_PATH);
-
-        if(!fileIsExist) {
-            return res.send("file doesn't exist");
-        }
-        else
+        //check if folder exists in json file but not exist in server
+        var folderIsExistReal = fs.existsSync(path.join(STATIC_PATH, req.params.folderName))
+        if(!folderIsExistReal)
         {
-            next();
+            console.log(req.params.folderName + " in JSON file does not exist in server")
+            console.log("---------------------------------------------")
+            return res.send("folders doesn't exist");
+        }
+        else {
+            //check does file exist
+            const DOWNlOAD_FILE_PATH = path.join(STATIC_PATH, req.params.folderName + '/' + req.params.fileName);
+
+            var fileIsExist = fs.existsSync(DOWNlOAD_FILE_PATH);
+
+            if(!fileIsExist) {
+                return res.send("file doesn't exist");
+            }
+            else
+            {
+                next();
+            }
         }
     }
 })

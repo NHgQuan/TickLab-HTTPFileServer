@@ -8,7 +8,7 @@ const getList       = require('./getList')
 
 
 program
-    .command('create <folderName>')
+    .command('cr <folderName>')
     .description('Create new folder')
     .action(createFolder)
 
