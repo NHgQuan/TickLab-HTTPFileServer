@@ -1,8 +1,9 @@
 //add library
-const e = require('cors');
 const fs = require('fs');
 const path = require('path');
 const addLog = require(path.join(process.cwd(), 'feature/addLog/addLog.js'));
+const token = require(path.join(process.cwd(), 'feature/authorization/token.js'));
+const keyStored = require(path.join(process.cwd(), '/TokenKey/key.js'));
 
 function rename(oldFolderName, newFolderName){
     //read and parse json file
@@ -31,7 +32,11 @@ function rename(oldFolderName, newFolderName){
         //change data in json file
         for(var x in folders)
         {
-            if(folders[x].name == oldFolderName) folders[x].name=newFolderName;
+            if(folders[x].name == oldFolderName) 
+            {
+                folders[x].name=newFolderName;
+                folders[x].token=token.GetToken(newFolderName, keyStored.key);
+            }
         }
 
         console.log(folders);
@@ -45,6 +50,7 @@ function rename(oldFolderName, newFolderName){
         }
     catch (error)
     {
+        console.log(error)
         console.log(newFolderName+" already exists")
     }
 }
