@@ -55,6 +55,10 @@ router.delete('/delete/:folderName/:fileName', (req, res, next) => {
   
 //check folder and file exists
 router.delete('/delete/:folderName/:fileName',(req, res, next) => {
+    if(req.params.fileName == 'log.json')
+    {
+        return res.send('log.json can not be deleted');
+    }
     var folderIsExist = false;
     //read and parse json file
     var data = fs.readFileSync("./data/folders.json")

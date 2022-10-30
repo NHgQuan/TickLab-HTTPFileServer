@@ -12,6 +12,8 @@ function rename(oldFolderName, newFolderName){
 
     //rename folder
     var oldPath = path.join(process.cwd(), '/public/'+oldFolderName);
+
+    //check if old folder doesn't exist'
     if(!fs.existsSync(oldPath)) 
         {
             console.log(oldFolderName+" doesn't exists")
