@@ -1,10 +1,14 @@
 const path = require('path')
+// Unnecessary resolving path
 const returnTime = require(path.join(process.cwd(), 'feature/getTime/getTime.js'));
 const fs = require('fs');
 
-
+// Using sync function, will block main thread => async instead
+// When log.json increases size by time, this function is BAD implement
+// Does it need to use JSON format ?
 function addLog(folderPath, action, object)
 {
+    // Using var is global, replace bt let
     var logFileIsExist = fs.existsSync(folderPath + "/log.json");
     if(logFileIsExist)
     {
@@ -28,7 +32,6 @@ function addLog(folderPath, action, object)
         var jsonLogData = JSON.stringify(logData, null, 2);
         fs.writeFileSync(folderPath + "/log.json", jsonLogData);
     }
-    
 }
 
 module.exports = addLog

@@ -1,8 +1,14 @@
 //add library
 const fs = require('fs');
 const path = require('path')
+
+// Unneccessary resolving path
 const token = require(path.join(process.cwd(), 'feature/authorization/token.js'))
+
+// Unneccessary resolving path
 const keyStored = require(path.join(process.cwd(), '/TokenKey/key.js'));
+
+// Unneccessary resolving path
 const addLog = require(path.join(process.cwd(), 'feature/addLog/addLog.js'));
 
 function create(folderName){

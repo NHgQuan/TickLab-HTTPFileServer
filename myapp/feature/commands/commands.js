@@ -1,10 +1,11 @@
 #! /usr/bin/env node
 const { program } = require('commander')
+// Unused import
 const path = require('path')
-const removeFolder  = require('./removeFolder')
-const renameFolder  = require('./renameFolder')
-const createFolder  = require('./createFolder');
-const getList       = require('./getList')
+const removeFolder = require('./removeFolder')
+const renameFolder = require('./renameFolder')
+const createFolder = require('./createFolder');
+const getList = require('./getList')
 
 
 program
@@ -13,12 +14,12 @@ program
     .action(createFolder)
 
 program
-    .command('rm <folderName>' )
+    .command('rm <folderName>')
     .description('Remove folder')
     .action(removeFolder)
 
 program
-    .command('rn <oldFolderName> <newFolderName>' )
+    .command('rn <oldFolderName> <newFolderName>')
     .description('Rename folder')
     .action(renameFolder)
 

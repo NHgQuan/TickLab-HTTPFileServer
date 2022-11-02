@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const prompt = require('prompt-sync')({sigint: true});
 
+
+// Bad format
 function remove (folderName)   {
     //read and parse json file
     var data = fs.readFileSync("./data/folders.json")
@@ -18,6 +20,7 @@ function remove (folderName)   {
 
     var confirmDelete = prompt('[Y/N]Are you sure to delere ' + folderName+" ");
 
+    // Can use toLowerCase()
     if(confirmDelete == 'N'||confirmDelete == 'n') return;
 
     if(confirmDelete == 'Y'||confirmDelete == 'y')
@@ -28,9 +31,11 @@ function remove (folderName)   {
         fs.rmSync(dirpath, {recursive: true});
         console.log(folderName+" have been deleted");
 
-        //delete data in json file
+        // delete data in json file
+        // Sequential search (It's okay because number of folders is small)
         for(var x in folders)
         {
+            // Bad loop, why don't u escape the loop when found folder which is needed to delete ?
             if(folders[x].name == folderName) folders.splice(x, 1);
         }
 

@@ -1,3 +1,5 @@
+# If this file not use anymore, remove it !
+
 #Initializing two variables
 a=$1
 
