@@ -11,6 +11,7 @@ const addLog = require(path.join(process.cwd(), 'feature/addLog/addLog.js'));
 const STATIC_PATH = path.join(process.cwd(), 'public')
 
 //check token 
+// Bad router, use middleware please
 router.get('/public/:folderName/:fileName',(req, res, next) => {
     var originData = req.params.folderName;
     const tokenString = req.headers.authorization.split(' ')[1];

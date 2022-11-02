@@ -1,4 +1,5 @@
 const fs = require('fs');
+// Unused import
 const path = require('path')
 
 function getList()

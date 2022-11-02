@@ -3,13 +3,17 @@ const express = require('express')
 const path = require('path')
 const foo = require('./foo')
 
+// Remove it
 const a = []
 
 //enable packages
 const app = express()
-const port = 3005
+
+// Global constant, which is not an object, should have capital snakecase name 
+const port = 3005 
 
 //add download feature
+// Importation should be declared in head of file
 const download = require(path.join(process.cwd(), 'feature/newUpDowlFeature/download.js'));
 app.use(download);
 
@@ -25,6 +29,7 @@ app.use(deleteRequest);
 ////////////////////////////////////////////////////////////////////////////////////////
 //SOMETHING TO TEST SERVER
 
+// Example should be removed
 foo(app, [{
   path: "/hello-world",
   handler: function(req, res) {

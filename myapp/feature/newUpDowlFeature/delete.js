@@ -28,7 +28,7 @@ router.delete('/delete/:folderName/:fileName', (req, res, next) => {
   
     try 
     {
-        
+        // What is nData ?
         var nData = token.VerifyToken(tokenString, keyStored.key);
         if(nData==originData) 
         {
@@ -54,8 +54,9 @@ router.delete('/delete/:folderName/:fileName', (req, res, next) => {
 })
   
 //check folder and file exists
+// Bad implement for check folder exists
 router.delete('/delete/:folderName/:fileName',(req, res, next) => {
-    if(req.params.fileName == 'log.json')
+    if(req.params.fileName == 'log.json') // Hard code
     {
         return res.send('log.json can not be deleted');
     }
@@ -98,6 +99,7 @@ router.delete('/delete/:folderName/:fileName',(req, res, next) => {
     }
 })
 
+// Why above callback function have checking folder if exist, but below callback function does not ?
 router.delete("/delete/:folderName/:fileName", function (req, res) {
     var folderName = req.params.folderName;
     var fileName = req.params.fileName;
