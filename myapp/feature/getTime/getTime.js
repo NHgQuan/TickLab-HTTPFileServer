@@ -1,8 +1,13 @@
+// What is date_ob ? Is it value need to be updated frequently ? 
+// I see that its value is init when the program start, and never be updated anymore
 const date_ob = new Date();
+
+// Unnecessary comment
 //const express = require('express')
 //const router = express.Router()
 
-
+// Using const instead var
+// Should use toString, toLocaleDateString, ... or other Date's conversion to string method 
 var returnTime = function (){
     // current date
     // adjust 0 before single digit date

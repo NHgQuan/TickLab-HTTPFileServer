@@ -1,4 +1,6 @@
 //add library
+// Similar to other file
+
 const fs = require('fs');
 const path = require('path');
 const addLog = require(path.join(process.cwd(), 'feature/addLog/addLog.js'));

@@ -13,6 +13,7 @@ const addLog = require(path.join(process.cwd(), 'feature/addLog/addLog.js'));
 const UPLOAD_FOLDER_PATH = path.join(process.cwd(), 'public');
 //router.use("/uploads", express.static(UPLOAD_PATH));
 
+// Check token everywhere :) Use MIDDLEWARE
 //check token
 router.post('/upload/:folderName', (req, res, next) => {
   var tokenString;
